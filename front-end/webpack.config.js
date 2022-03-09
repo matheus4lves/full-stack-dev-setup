@@ -1,4 +1,5 @@
 const path = require("path");
+const postcssPlugins = [require("postcss-import")];
 
 let mode = process.env.npm_lifecycle_event;
 
@@ -9,7 +10,23 @@ let config = {
     filename: "bundle.js",
   },
   module: {
-    rules: [],
+    rules: [
+      {
+        test: /\.css$/i,
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: postcssPlugins,
+              },
+            },
+          },
+        ],
+      },
+    ],
   },
   target: "web",
 };
